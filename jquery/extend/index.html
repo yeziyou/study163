@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./jquery.js"></script>
+    <script>
+        var o1 = {
+            name: 'jelly', 
+            sex: 'female', 
+            addr: {
+                country: '中国',
+                name: '卫星大厦'
+            }
+        };
+        var o2 = {
+            name: 'lily', 
+            age: 20, 
+            addr: {
+                city: '北京', 
+                district: '海淀区', 
+                street: '中关村大街'
+            }
+        };
+        var obj1 = $.extend({}, o1, o2);
+        console.log(obj1);
+
+        var obj2 = $.extend(true, {}, o1, o2);
+        console.log(obj2);
+
+        var obj3 = $.extend(null, o1, o2);
+        console.log(obj3);
+
+        // $.extend({
+        //     work: function() {
+
+        //     },
+        // });
+        // $.work();
+
+        // $.fn.extend({
+        //     sex: '女',
+        // });
+        // $().sex;
+    </script>
+</body>
+</html>
