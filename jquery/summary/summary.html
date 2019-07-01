@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="my-div">div1</div>
+    <div class="my-div">div2</div>
+    <script src="../jquery-2.2.4.js"></script>
+    <!-- <script src="./jquery-2.2.5.js"></script> -->
+
+    <script>
+        /*
+            1. window !== "undefined" ? window : this 
+               猜测：作者想提醒用户jquery不仅能应用在浏览器环境 还能正常运行在别的环境下
+            2. $.fn.xxx = function(){}
+               $.fn = $.prototype
+            3. $.fn.init 和 jQuery($) 有什么关系
+               共享原型
+        */
+        (function(){
+            var $div1 = $('.my-div');
+            var $div2 = $('.my-div');
+            console.log($div1 === $div2);
+
+            console.log($div1);
+
+            var a = {
+                query: {
+                    conditions: [{
+                        name: 'status',
+                        value: '1',
+                    }]
+                },
+                size:20,
+            }
+            var b = {
+                query: {
+                    conditions: [{
+                        name: 'apiname',
+                        value: '客户',
+                    }, {
+                        name: 'status',
+                        value: '2',
+                    }]
+                },
+                size:30,
+            }
+            var c = $.extend({}, a, b);
+            var d = $.extend({}, b, a);
+            var e = $.extend(true, {}, a, b);
+            var f = $.extend(true, {}, b, a);
+            console.log(111, c);
+            console.log(222, d);
+            console.log(333, e);
+            console.log(444, f);
+
+        })()
+    </script>
+    
+</body>
+</html>
