@@ -21,6 +21,7 @@
             target = arguments[1];
             i = 2;
         }
+        
         if (typeof target !== 'object') {
             target = {};
         }
