@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="jQuery.1.0.1.js"></script>
+		<script>
+			var ret = {name:"max",list:{age:"30"}};
+			var res = {list:{sex:"女"}};
+			//任意对象扩展
+			var obj = $.extend(true,{}, ret, res);       //=>  name  age
+			console.log(obj);   //name:"max"  list:{sex:"女", age:"30" }
+			
+			
+			//深拷贝
+			
+			
+// 			//jQuery  本身扩展  this  ==  jQuery
+// 			$.extend({
+// 				work: function(){}
+// 			});
+// 			
+// 			jQuery.work();
+// 			
+// 			//实例对象扩展    this   ==  实例对象
+// 			$.fn.extend({
+// 				sex:"男"
+// 			});
+// 			$().sex;    //男     $.fn.extend   $.extend    
+		</script>
+	</body>
+</html>

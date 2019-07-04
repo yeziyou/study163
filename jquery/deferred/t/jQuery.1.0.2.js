@@ -1,8 +1,8 @@
 /*
  * @Author: Administrator
  * @Date:   2018-10-30 20:40:51
- * @Last Modified by:   Administrator
- * @Last Modified time: 2018-11-01 22:10:22
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-07-04 19:41:43
  */
 (function(root) {
 	var testExp = /^\s*(<[\w\W]+>)[^>]*$/;
@@ -113,7 +113,7 @@
 	jQuery.extend({
 		//类型检测     
 		isPlainObject: function(obj) {
-			return typeof obj === "object";
+			return toString.call(obj) === "[object Object]";
 		},
 
 		isArray: function(obj) {
@@ -232,14 +232,14 @@
 				deferred = {};
 
 			tuples.forEach(function(tuple, i) {
-				var list = tuple[2],
+				var list = tuple[2],  //创建队列
 					stateString = tuple[3];
 
 				// promise[ done | fail | progress ] = list.add
 				promise[tuple[1]] = list.add;
 
 				// Handle state
-				if (stateString) {
+				if (stateString) {  //添加第一个处理程序，内置的状态变化处理函数
 					list.add(function() {
 						// state = [ resolved | rejected ]
 						state = stateString;
@@ -248,6 +248,7 @@
 
 				// deferred[ resolve | reject | notify ]
 				deferred[tuple[0]] = function() {
+					// todo 这里的this 怎么理解 ？？？
 					deferred[tuple[0] + "With"](this === deferred ? promise : this, arguments);
 					return this;
 				};
