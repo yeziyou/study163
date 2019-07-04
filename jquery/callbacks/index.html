@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src="jquery.js"></script>
+    <script>
+        // var cb = _.callbacks('once stopOnfalse memory');
+        // cb.add(function(){
+        //     console.log(1);
+        // });
+        // cb.add(function(){
+        //     console.log(2);
+        //     return false;
+        // });
+        // cb.add(function(){
+        //     console.log(3);
+        // });
+        // cb.fire();  // 打印1、2  
+        // cb.fire();  // 配了once不执行
+
+        // cb.add(function(){
+        //     console.log(4);
+        // })  //由于同时设置了stopOnfalse并未执行到
+
+
+        // var cb = _.callbacks('memory');
+        // cb.add(function(){
+        //     console.log(1);
+        // });
+        // cb.add(function(){
+        //     console.log(2);
+        // });
+        // cb.fire();
+        // cb.add(function(){
+        //     console.log(3);
+        // });
+        // cb.add(function(){
+        //     console.log(4);
+        // })
+        
+
+        // 同时设置了 memory 和 stopOnfalse 返回false之后是否应该执行新增的 ？？？
+        var cb1 = _.callbacks('stopOnfalse memory');
+        cb1.add(function(){
+            console.log(1);
+        });
+        cb1.add(function(){
+            console.log(2);
+            return false;
+        });
+        cb1.fire();
+        cb1.add(function(){
+            console.log(3);  //应当不打印3，现在还是打印出来的
+        })
+
+        // var cb2 = _.callbacks('once memory');
+        // cb2.add(function(){
+        //     console.log(21);
+        // });
+        // cb2.fire();
+        // cb2.add(function(){
+        //     console.log(23);
+        //     this.add(function(){
+        //         console.log(24);
+        //     })
+        // });
+        
+
+    </script>
+</body>
+</html>

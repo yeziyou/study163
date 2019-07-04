@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="Underscore.js"></script>
+		<script>
+		//    var cb = _.callbacks("once memory");
+			var cb = _.callbacks('once memory');
+			cb.add(function(){
+				console.log(1111);
+			});
+			cb.add(function(){
+				console.log(2222);
+			});
+			cb.fire();
+			// cb.fire();
+			cb.add(function(){
+				console.log(3333);
+			})
+
+		</script>
+	</body>
+</html>
