@@ -10,19 +10,27 @@
 
     <script src="./jquery.js"></script>
     <script>
-        var reg = /^<(\w+)\s*\/?>(?:<\/\1>|)$/;
-        console.log('<a>'.match(reg));
-        console.log('<a/>'.match(reg));
-        console.log('<a></a>'.match(reg));
-        console.log('<a/></a>'.match(reg));
-        console.log('<a></b>'.match(reg));
+        $(function(){
+            console.log(1);
+        });
+
+        $(function(){
+            console.log(2);
+        })
+
+        // var reg = /^<(\w+)\s*\/?>(?:<\/\1>|)$/;
+        // console.log('<a>'.match(reg));
+        // console.log('<a/>'.match(reg));
+        // console.log('<a></a>'.match(reg));
+        // console.log('<a/></a>'.match(reg));
+        // console.log('<a></b>'.match(reg));
 
 
-        console.log(reg.exec('<a>'));
-        console.log(reg.exec('<a/>'));
-        console.log(reg.exec('<a></a>'));
-        console.log(reg.exec('<a/></a>'));
-        console.log(reg.exec('<a></b>'));
+        // console.log(reg.exec('<a>'));
+        // console.log(reg.exec('<a/>'));
+        // console.log(reg.exec('<a></a>'));
+        // console.log(reg.exec('<a/></a>'));
+        // console.log(reg.exec('<a></b>'));
     </script>
 </body>
 </html>
