@@ -1,14 +1,15 @@
 /*
  * @Author: Administrator
  * @Date:   2018-10-30 20:40:51
- * @Last Modified by:   Administrator
- * @Last Modified time: 2018-11-01 22:10:22
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-07-09 17:39:40
  */
 (function(root) {
 	var testExp = /^\s*(<[\w\W]+>)[^>]*$/;
 	var rejectExp = /^<(\w+)\s*\/?>(?:<\/\1>|)$/;
 	var version = "1.0.1";
 	var optionsCache = {};
+	var uid = 1;
 	var jQuery = function(selector, context) {
 		return new jQuery.prototype.init(selector, context);
 	}
@@ -228,6 +229,7 @@
 				],
 				state = "pending",
 				promise = {
+					id: uid++,
 					state: function() {
 						return state;
 					},

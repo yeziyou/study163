@@ -5,7 +5,8 @@
 		<title></title>
 	</head>
 	<body>
-		<script src="jQuery.1.0.2.js"></script>
+		<!-- <script src="jQuery.1.0.2.js"></script> -->
+		<script src="jquery-2.0.3.js"></script>
 		<script>
 			//1: wait
 			var wait = function(src) {
@@ -33,9 +34,12 @@
 			wait("logo.png").then(function(messge){
 				//成功 resolve
 				console.log(messge);
-				var der = $.Deferred();
-				der.resolve("又是一个deferred");
-				return der;  //der.promise()
+				
+				// var der = $.Deferred();  //回调中还需要做异步处理的情况才需要再建一个Deferred
+				// der.resolve("又是一个deferred");
+				// return der;  //der.promise()
+				return wait('logo2.png')
+				// return '又又又是一个deferred';
 			}).then(function(messge){
 				//var der = $.Deferred();   resolve
 				console.log(messge)
