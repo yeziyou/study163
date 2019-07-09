@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="jQuery.1.0.2.js"></script>
+		<script>
+			var callList = $.callbacks("unique"); //容器  ||  队列  默认once
+
+			var fn = function() {
+				console.log("hello max");
+			}
+			callList.add(function() {
+				console.log("hello callbacks")
+			});
+			callList.add(fn, fn);
+			callList.fire();
+
+
+
+
+			function func() {
+				var self = {};
+				return self;
+			}
+			func(); //拷贝  副本
+
+			console.log(func() === func())
+
+			var obj = func(); //拷贝  副本
+			obj.name = "max";
+
+			var res = func(); //拷贝  副本
+			console.log(res.name)
+
+
+			/*
+			
+			Deferred   延迟对象
+			状态           成功resolve    失败reject     进行中notify
+			回调的绑定      done          fail           progress
+			
+			
+			Deferred   延迟对象  resolve   => self拷贝   => fire
+			                    done       => self拷贝   => add
+			
+			Deferred   延迟对象  reject    => self拷贝  => fire
+			                     fail     => self拷贝   => add
+			
+			Deferred   延迟对象   notify   => self拷贝  => fire
+			                     progress   => self拷贝 => add
+			
+			
+			var tuples = [
+					["resolve", "done", self, "resolved"],   //self 容器 add  fire
+					["reject", "fail", self, "rejected"],
+					["notify", "progress", self]
+				]
+			
+			*/
+		</script>
+	</body>
+</html>

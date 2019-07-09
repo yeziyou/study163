@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="jQuery.1.0.2.js"></script>
+		<script>
+			//1: wait
+			var wait = function(src) {
+				var der = $.Deferred();
+				var img = new Image();
+				img.onload = function() {
+					der.resolve("图片加载成功"); //状态绑定  der.fire()     callList.fire()
+				}
+				img.src = src;
+				return der.promise();  //状态封存  promise 权限设定  无法改变延迟对象的状态
+			}
+
+			//wait  der 延迟对象   状态封存
+			//console.log(wait())
+			// $.when(wait())    //成功 => 失败
+			// 	.done(function(messge) {
+			// 		console.log(messge)
+			// 	})
+			// 	.fail(function() {
+   //                console.log("hello fail")
+			// 	});
+			
+			//
+
+			wait("logo.png").then(function(messge){
+				//成功 resolve
+				console.log(messge);
+				var der = $.Deferred();
+				der.resolve("又是一个deferred");
+				return der;  //der.promise()
+			}).then(function(messge){
+				//var der = $.Deferred();   resolve
+				console.log(messge)
+			}, function(){
+				//var der = $.Deferred();   reject
+			});
+			
+			
+			/*
+			1：创建新的延迟对象
+			2：新的延迟对象会接收传入的参数  fnDone, fnFail, fnProgress
+			3：add 给老的延迟对象
+			*/
+			//1: 调用then() 创建两个延迟对象  1: 老的  var der = $.Deferred();   2: 新的
+		</script>
+	</body>
+</html>
