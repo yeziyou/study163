@@ -1,8 +1,8 @@
 /*
  * @Author: Administrator
  * @Date:   2018-10-30 20:40:51
- * @Last Modified by:   Administrator
- * @Last Modified time: 2018-11-01 22:10:22
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-07-18 18:26:00
  */
 (function(root) {
 	var testExp = /^\s*(<[\w\W]+>)[^>]*$/;
@@ -108,7 +108,8 @@
 	jQuery.extend({
 		//类型检测     
 		isPlainObject: function(obj) {
-			return typeof obj === "object";
+			// return typeof obj === "object";
+			return toString.call(obj) === "[object Object]";
 		},
 
 		isArray: function(obj) {
@@ -157,8 +158,9 @@
 		access: function(elems, func, key, value) { //text  css
 			var len = elems.length;
 			var testing = key === null; //true 
-			var cache, chain,name;
-			if(jQuery.isPlainObject(key)){
+			var cache, chain, name;
+			//chain  set操作下返回节点对象使其支持链式操作
+			if(jQuery.isPlainObject(key)){ //set
 				chain = true;
 				for( name in key){
 					jQuery.access(elems, func, name, key[name]);
@@ -213,7 +215,7 @@
 			return jQuery.access(this, function(key, value) {
 				var styles, len;
 				var map = {};
-				if (jQuery.isArray(key)) { //获取当前元素的css样式表达  this   style
+				if (jQuery.isArray(key)) { //获取当前元素的css样式表达  this   style   // get
 					styles = window.getComputedStyle(this, null);
 					len = key.length;
 					for (var i = 0; i < len; i++) {

@@ -12,18 +12,20 @@
 	</head>
 	<body>
 		<div class="box">this is box</div>
+		<div class="box">this is box2</div>
 		<script src="jQuery.1.0.1.js"></script>
+		<!-- <script src="./jquery-2.0.3.js"></script> -->
 		<script>
 		    //链式的操作  chain  jQuery
-		 // console.log($(".box").text("this is set"));      //set  get
-		//  console.log($(".box").text());      //get
+		//  console.log($(".box").text("this is set"));      //set  get
+		 console.log($(".box").text());      //get
 		//console.log($(".box").css(["font-size", "color"]));
 		//console.log($(".box").css("color"));   //set
 		// console.log($(".box").css("color")); //get
-		   $(".box").css({    //批量的set
-			  "color": "#abcdef",
-			  "font-size":"40px"
-		  });
+		//    $(".box").css({    //批量的set
+		// 	  "color": "#abcdef",
+		// 	  "font-size":"40px"
+		//   });
 		  
 	   //console.log($(".box").css("font-size"));
 	
