@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			// 			//字面量
+			// 			/\s+/
+			// 
+			// 			var ncname = "[a-z A-Z _]"
+			// 			//创建正则对象
+			// 			new RegExp("\\s+" + ncname) //字符串   拼接   复用
+			// 
+			// 
+			// 			"\\s+" + ncname
+			// 
+			// 
+			// 			//那种方式好???   特点 特色
+			// 
+			// 			/*
+			// 			
+			// 				typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+			// 				typeof define === 'function' && define.amd ? define(factory) :
+			// 				(global.Vue = factory());
+			// 			*/
+			/*
+						function fn() {
+							var objb = require("./b.js"); //文件的依赖
+						}
+
+						var str = fn.toString();
+						// (["'])    (.+)  捕获
+						var ret = /\brequire\((["'])(.+)\1\)/g.exec(str);
+						console.log(ret[2])    //捕获的依赖
+						
+						
+						  \b  边界符  [数字字母下划线]
+						  []  字符的范围
+						  \1  反向引用
+				*/
+
+			//正则模式的组合    模板引擎    <%%> {{ }}    模板+数据=html
+			/*
+			<%= %>  变量
+			<%- %>  逃逸的字符
+			<%  %>  js逻辑代码
+			*/
+			var data = {
+				name: "max"
+			}
+
+
+			var settings = {
+				evalute: /<%([\s\S]+?)%>/g, //植入JavaScript逻辑
+				escape: /<%-([\s\S]+?)%>/g, //植入逃逸的字符
+				interpolate: /<%=([\s\S]+?)%>/g, //植入变量
+			}
+
+			function template(text) {
+				var matcher = new RegExp([
+					settings.evalute.source,
+					settings.escape.source,
+					settings.interpolate.source
+				].join("|"), "g");
+				console.log(matcher)
+			}
+
+			var compiled = template("hello: <%= name %>"); //"hello: <%= name %>"   模板字符    模板替换  逻辑处理
+		</script>
+	</body>
+</html>

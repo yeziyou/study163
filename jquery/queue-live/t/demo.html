@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div class="box"></div>
+		<script src="jQuery.1.0.2.js"></script>
+		<script>
+			//access
+		    $(".box").data("name","max");   //缓存了一条数据   set
+			
+			//queue 队列       deferred  成功   失败   进行中  回调列表(容器)
+			var box = $(".box");
+
+			function fn(next) {
+				console.log("this is fn");
+				next();   //指向下一个要执行的callback  jQuery.dequeue(box, "first");
+			}
+
+			function fn1(next) {
+				console.log("this is fn1")
+				next();
+			}
+			function fn2() {
+				console.log("this is fn2")
+			}
+			//"first"
+			jQuery.queue(box, "first", fn); //  注册  firstqueue:[fn]     queue =  [fn]
+			jQuery.queue(box, "first", fn1); //  [fn,fn1]
+			jQuery.queue(box, "first", fn2);
+
+			
+			//"ret"
+			//console.log(jQuery.queue(box, "first"));  // first
+
+			//执行  callList.fire()  依次执行    dequeue 调用一次就执行一个callback
+			jQuery.dequeue(box, "first"); //"this is fn"
+			//jQuery.dequeue(box, "first");
+			//jQuery.dequeue(box, "first"); 
+			//console.log(jQuery.queue(box, "first")); //"this is fn"
+			
+			//jQuery101055205404881292950.4385429951009774: 1  {"1":{}}
+			$(".box").data("name")
+		</script>
+	</body>
+</html>

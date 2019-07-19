@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script>
+		/*
+			new Vue({
+				el:"#app",
+				data:{
+					name: "max"
+				},
+				template:"<div>{{ name }}</div>"
+			})
+	   */
+	  
+	  //字符串的扫描
+	  var template = "<div>{{ name }}</div>";
+	  //标签的规则
+	 var ncname = "[a-zA-Z]*";
+	 var qnamecaptrue = "("+ncname+")";
+	 //匹配开始标签
+	 var startTagOpen = new RegExp("^<"+qnamecaptrue);
+	 //匹配结束标签
+	  //Vue 编译器 词法分析 parseHTML
+      function parseHTML(html){
+		  var index = 0;  //切割的起点
+		  while(html){   //死循环  html 切割 "" 
+			  var startTagMatch = parseStartTag();   //开始标签  父标签
+			  console.log(html);
+			  break;
+		  }
+		  parseStartTag();
+		  function parseStartTag(){
+			  var start = html.match(startTagOpen);   //token   词  单元
+			  if(start){
+				  var match = {
+					  tagName:start[1],   //名称
+					   attrs:[],      // 属性+指令
+					   start:index    // 子标签....
+				  }
+				  advance(start[0].length);
+			  }
+			  return match;   
+		  }
+		  
+		  function advance(n){
+			  index += n;
+			  html = html.substring(n);
+		  }
+	  }	
+	  parseHTML(template);
+		</script>
+	</body>
+</html>
