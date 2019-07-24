@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="underscore.js"></script>
+		<script>
+// 			//ES6 引入 rest 参数(形式为...变量名)用于获取函数的多余参数
+// 			function test(count, rest){
+// 				console.log(rest)
+// 			}
+// 			test(1,2,3,4);
+			
+			
+			//[1,[2,3,4]]
+			// function test(count, rest){
+			// 	console.log(rest);   //[2,3,4]
+			// }
+			// //包装器
+			// var restTest = _.restArguments(test);
+			// restTest(1,2,3,4);
+
+			var obj = {a:1, b:2};
+			console.log(_.baseCreate(obj));
+			console.log(Object.create(obj));
+
+			// function oCreate(obj) {
+			// 	var o = {};
+			// 	o.__proto__ = obj; //一般不直接处理__proto__属性
+			// 	return o;
+			// }
+			// console.log(oCreate(obj));
+		</script>
+	</body>
+</html>
