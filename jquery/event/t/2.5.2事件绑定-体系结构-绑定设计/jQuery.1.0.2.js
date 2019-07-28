@@ -2,7 +2,7 @@
  * @Author: Administrator
  * @Date:   2018-10-30 20:40:51
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-07-05 17:18:38
+ * @Last Modified time: 2019-07-25 10:42:24
  */
 (function(root) {
 	var testExp = /^\s*(<[\w\W]+>)[^>]*$/;
@@ -390,7 +390,7 @@
 			handlers.push({
 				type: type,
 				handler: handler,
-				guid: handler.guid,
+				guid: handler.guid,   // remove时候用
 			});
 			//添加事件
 			if (elem.addEventListener) {

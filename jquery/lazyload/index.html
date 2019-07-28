@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* .lazy-wrapper{
+            height:600px;
+            overflow: auto;
+        } */
+        .lazy-demo {
+            width: 600px;
+            margin: 0 auto;
+        }
+        .lazy-demo img{
+            background-color:#ddd;
+            width:600px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="lazy-wrapper">
+        <div class="lazy-demo" data-place="http://iph.href.lu/600x500?bg=dddddd">
+            <p>链式调用时jQuery的一大特色，一个通用的插件应该遵循jQuery风格，满足链式调用要求。实现链式调用的方式也很简单：</p>
+            <p><img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/OZFs4F47RUicuSOT27tmC9GqrG7Cl57z65j1wWiaticxnVVMjaMUv7wLtlBwPLKEAn1A1VyrdAImAEZYgZaVFKgjg/640?wx_fmt=jpeg" /></p>
+            <p><img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/OZFs4F47RUicuSOT27tmC9GqrG7Cl57z6icyeqf3cS8KFBVGohr7nPLb3p15K9NJPkOcbiaoKvvticfciaKoLYicPNtQ/640?wx_fmt=jpeg" /></p>
+            <p><img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/OZFs4F47RUicuSOT27tmC9GqrG7Cl57z6lTvb3EU9eUg4ibAxqfe7icyMcK7HT6wP0IoD8jDAhKpOX1hbb4fIkYcQ/640?wx_fmt=jpeg" /></p>
+            <p><img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/OZFs4F47RUicuSOT27tmC9GqrG7Cl57z6nHx17pk3TBF05Jg5kNMfQic6DpQHJgGcib4LlS3LE1FNsGiapMXC5v5RQ/640?wx_fmt=jpeg" data-type="jpeg" data-w="750" style="float: left;"  /></p>
+            <p><img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/OZFs4F47RUicuSOT27tmC9GqrG7Cl57z6qArnjlJBQjMvm6fvzDiamyczQPjMSZibbQibFr6Tppv1SVibic2hwYTRjnA/640?wx_fmt=jpeg" /></p>
+            <p><img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/OZFs4F47RUicuSOT27tmC9GqrG7Cl57z6dTdz0rsv2CZgzlb6GibPlCYVpA0wicz5Gf8RqlnhHqfurlwxUXEgnZqQ/640?wx_fmt=jpeg" /></p>
+            <p><img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/OZFs4F47RUicuSOT27tmC9GqrG7Cl57z6WXtDoUNOQ6bItzqz5HUUlTbkoFbvNYWG7RicqFbKUwLAwreBbGNpatw/640?wx_fmt=jpeg" /></p>
+            <p><img data-src="https://mmbiz.qpic.cn/mmbiz_jpg/OZFs4F47RUicuSOT27tmC9GqrG7Cl57z62abTNxFK2jXsGmb7cPq72evvQnP82ugmnfHGDHPFWp7rmmXLkdSvwA/640?wx_fmt=jpeg" /></p>
+        </div>
+    </div>
+    <script src="jquery-2.0.3.js"></script>
+    <script src="lazyload.js"></script>
+    <script>
+        (function() {
+            $('.lazy-demo').lazyload({
+                // root: $('.lazy-wrapper')[0],
+                threshold: 1,  //为了看清楚懒加载的效果，元素需要完全进入视窗才加载
+                // rootMargin: '30%',
+                onLoad: function(entry) {
+                    $(entry.target).css('height', 'auto');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

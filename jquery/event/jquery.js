@@ -2,7 +2,7 @@
  * @Author: Administrator
  * @Date:   2018-10-30 20:40:51
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-07-05 18:35:39
+ * @Last Modified time: 2019-07-25 16:48:19
  */
 (function(root) {
 	var testExp = /^\s*(<[\w\W]+>)[^>]*$/;
@@ -328,30 +328,23 @@
 
 	Data.prototype = {
 		key: function(elem) {
-			var descriptor = {},
-				unlock = elem[this.expando];
-
+			var descriptor = {};
+			var unlock = elem[this.expando];
 			if (!unlock) {
 				unlock = Data.uid++;
-				descriptor[this.expando] = { //钥匙
-					value: unlock
-				};
-				//方法直接在一个对象上定义一个或多个新的属性或修改现有属性,并返回该对象。
-				//DOM   =>  jQuery101089554822917892030.7449198463843298 = 1;
+				descriptor[this.expando] = {
+					value: unlock,
+				}
 				Object.defineProperties(elem, descriptor);
 			}
-			//确保缓存对象记录信息
 			if (!this.cache[unlock]) {
-				this.cache[unlock] = {}; //  数据
+				this.cache[unlock] = {};
 			}
-
 			return unlock;
 		},
 
-		get: function(elem, key) {
-			//找到或者创建缓存
-			var cache = this.cache[this.key(elem)]; //1  {events:{},handle:function(){}} 
-			//key 有值直接在缓存中取读
+		get: function(elem, key) {  //此处的key为何值??? 不是应该是 Data.uid 么
+			var cache = this.cache[this.key(elem)];
 			return key === undefined ? cache : cache[key];
 		},
 	}
@@ -363,16 +356,48 @@
 	jQuery.event = {
 		//1:利用 data_priv 数据缓存,分离事件与数据 2:元素与缓存中建立 guid 的映射关系用于查找 
 		add: function(elem, type, handler) {
-			
+			var events, eventHandle, handlers;
+			var elemData = data_priv.get(elem);
+
+			if (!handler.guid) {
+				handler.guid = jQuery.guid++;   //guid == 1
+			}
+
+			if (!(events = elemData.events)) {
+				events = elemData.events = {};
+			}
+
+			if (!(eventHandle = elemData.handle)) {
+				eventHandle = elemData.handle = function(e) {
+					jQuery.event.dispatch.apply(eventHandle.elem, arguments);
+				}
+			}
+			eventHandle.elem = elem;
+
+			if (!(handlers = events[type])){
+				handlers = events[type] = [];
+				// handlers.delegateCount = 0; //对于当前代码没有用
+			}
+
+			handlers.push({
+				type: type,
+				handler: eventHandle,
+				guid: handler.guid,
+			});
+
+			if (elem.addEventListener) {
+				elem.addEventListener(type, eventHandle, false);
+			}
 		},
 
 		//修复事件对象event 从缓存体中的events对象取得对应队列。
 		dispatch: function(event) {
-			
+			var handlers = (data_priv.get(this, 'events') || {})[event.type] || [];
+			jQuery.event.handlers.call(this, event, handlers);
 		},
 
 		//执行事件处理函数
-		handlers: function(handlers, args) {   //[event , 自定义参数]
+		handlers: function(event, handlers) {   //[event , 自定义参数]
 			handlers[0].handler.apply(this, args);
 		},
 
@@ -471,7 +496,47 @@
 		//data:  传递到事件处理程序的额外参数。
 		//elem:  Element对象
 		trigger: function(event, data, elem) {
+			// 1. 非原生事件需要模拟原生事件 jQuery.Event
+			// 2. 原生的事件需要触发原生的效果 jQuery.event.special
+			// 3. 非原生事件模拟规划冒泡路线
+			var special, handle;
+			var i = 0;
+			var eventPath = [elem || document];
+			var cur = tmp = elem || document;
+			var type = event.type || type;
+
+			event = event[data_priv.expando] ? event : new jQuery.Event(type, typeof event === "object" && event);
 			
+			if (!event.target) {
+				event.target = elem;
+			}
+
+			data = data == null ? [event]: jQuery.markArray(data, [event]);
+
+			special = jQuery.event.special[type] || {};
+			if (special.trigge && special.trigger.call(elem, event) === false) {
+				return;
+			}
+
+			cur = cur.parentNode;
+			for (; cur; cur.parentNode){
+				eventPath.push(cur);
+				tmp = cur;
+			}
+			if (tmp === (elem.ownerDocument || document)) {
+				eventPath.push(tmp.defaultView || tmp.parentWindow || window);
+			}
+			// for(; i < eventPath.length; i++){
+			// 	// jQuery.tirgger.call(eventPath[i], event, data, eventPath[i]);
+			// }
+			while ((cur = eventPath[i++])) {
+				handle = (data_priv.get(elem, 'events') || {})[type] && data_priv.get(elem, 'handle');
+				if (handle) {
+					// handle.call(cur, event, data);
+					// 514行处理了data
+					handle.apply(cur, data);
+				}
+			}
 		},
 	}
 
@@ -521,15 +586,25 @@
 
 	jQuery.fn.extend({
 		each: function(callback, args) {
-
+			jQuery.each.call(this, callback, args);
 		},
 
 		on: function(types, fn) {
-			
+			var type;
+			if(_.isPlainObject(types)) {
+				for(type in types) {
+					this.on(type, types[type]);
+				}
+			}
+			return this.each(function(){
+				jQuery.event.add(this, types, fn);
+			})
 		},
 		//语法: data可选,传递到事件处理程序的额外参数。  注意:事件处理程序第一个参数默认是event
 		trigger: function(type, data) {
-			
+			return this.each(function() {
+				jQuery.event.trigger(type, data, this);
+			})
 		},
 	})
 

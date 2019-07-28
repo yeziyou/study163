@@ -2,7 +2,7 @@
  * @Author: Administrator
  * @Date:   2018-10-30 20:40:51
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-07-05 17:17:23
+ * @Last Modified time: 2019-07-25 16:47:48
  */
 (function(root) {
 	var testExp = /^\s*(<[\w\W]+>)[^>]*$/;
