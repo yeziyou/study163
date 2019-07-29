@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .validator-demo{
+            width:600px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="validator-demo">
+        <form class="validator-form" action="">
+            <p class="validator-item" data-key="username">姓 名: <input type="text" class="validator-input" name="username" required="true" data-label="姓名" /></p>
+            <p class="validator-item" data-key="mobile">电 话: <input type="text" class="validator-input" name="mobile" required="true" mobile="true" /></p>
+            <p class="validator-item" data-key="addr">地 址: <input type="text" class="validator-input" name="addr" required="true" minlength="6" /></p>
+            <p class="validator-item" data-key="email">邮 箱: <input type="text" class="validator-input" name="email" required="true" email="true" /></p>
+            <p class="validator-item" data-key="idcard">身份证: <input type="text" class="validator-input" name="idcard" required="true" idcard="true" /></p>
+        </form>
+    </div>
+    <script src="jquery-2.0.3.js"></script>
+    <script src="validator.js"></script>
+    <script>
+        (function() {
+            $('.validator-form').validator({
+                event: 'blur'
+            });
+        })();
+    </script>
+</body>
+</html>
