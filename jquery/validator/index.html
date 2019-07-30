@@ -88,6 +88,13 @@
             });
             $('.btn-submit').on('click', function(e) {
                 validator.validate();
+                // validator.validate('username');
+                // validator.validate(['username', 'email']);
+                // validator.validate({
+                //     username: 'required',
+                //     email: ['required', 'email'],
+                //     mobile: ['required'],
+                // });
             });
             $('.btn-reset').on('click', function() {
                 validator.resetError();

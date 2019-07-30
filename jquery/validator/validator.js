@@ -263,7 +263,7 @@
         getRules: function() {
             var itemClass = this.options.itemClass || ITEM_CLASS;
             var $items = this.find(`.${itemClass}`);
-            var $item, $input, label, key, attrs;
+            var $item, $input, key, attrs;
             var rules = {}, rule = {};
             for(var i = 0, j = $items.length; i < j; i++) {
                 $item = $items.eq(i);
@@ -285,11 +285,11 @@
 
     $.fn.validator = function(options) {
         this.options = options;
-        var rules = options && options.rules || this.getRules();
         options.$wrapper = this;
-        var _validate = new Validator(options);
-        _validate.add(rules);
-        return _validate;
+        var rules = options && options.rules || this.getRules();
+        var _validator = new Validator(options);
+        _validator.add(rules);
+        return _validator;
     }
 
 })(jQuery)
