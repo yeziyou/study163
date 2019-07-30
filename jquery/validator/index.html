@@ -7,28 +7,91 @@
     <title>Document</title>
     <style>
         .validator-demo{
+            font-size:16px;
             width:600px;
+            padding:30px 50px;
             margin: 20px auto;
+        }
+        .validator-btns{
+            margin-top:30px;
+            padding-right:200px;
+        }
+        .btn{
+            width:60px;
+            height:28px;
+            line-height: 28px;
+            text-align: center;
+            border:#ddd solid 1px;
+            border-radius: 3px;
+            cursor: pointer;
+            float: right;
+            margin-right:20px;
+        }
+        .validator-item{
+            margin-top:20px;
+        }
+        .validator-item label{
+            text-align: justify;
+            text-align-last:justify;
+            display:inline-block;
+            width:80px;
+        }
+        .validator-input{
+            width:300px;
+            height:28px;
+            border:#ddd solid 1px;
+            border-radius: 3px;
+        }
+        .validator-error{
+            color:red;
         }
     </style>
 </head>
 <body>
     <div class="validator-demo">
         <form class="validator-form" action="">
-            <p class="validator-item" data-key="username">姓 名: <input type="text" class="validator-input" name="username" required="true" data-label="姓名" /></p>
-            <p class="validator-item" data-key="mobile">电 话: <input type="text" class="validator-input" name="mobile" required="true" mobile="true" /></p>
-            <p class="validator-item" data-key="addr">地 址: <input type="text" class="validator-input" name="addr" required="true" minlength="6" /></p>
-            <p class="validator-item" data-key="email">邮 箱: <input type="text" class="validator-input" name="email" required="true" email="true" /></p>
-            <p class="validator-item" data-key="idcard">身份证: <input type="text" class="validator-input" name="idcard" required="true" idcard="true" /></p>
+            <div class="validator-item" data-key="username">
+                <label for="">姓 名:</label> 
+                <input type="text" class="validator-input" data-label="姓名" name="username" required="true" />
+            </div>
+            <div class="validator-item" data-key="mobile">
+                <label for="">电 话:</label> 
+                <input type="text" class="validator-input" data-label="电话" name="mobile" required="true" mobile="true" />
+            </div>
+            <div class="validator-item" data-key="addr">
+                <label for="">地 址:</label> 
+                <input type="text" class="validator-input" data-label="地址" name="addr" required="true" minlength="6" />
+            </div>
+            <div class="validator-item" data-key="email">
+                <label for="">邮 箱:</label> 
+                <input type="text" class="validator-input" data-label="邮箱" name="email" required="true" email="true" />
+            </div>
+            <div class="validator-item" data-key="idcard">
+                <label for="">身份证:</label>
+                <input type="text" class="validator-input" data-label="身份证" name="idcard" required="true" idcard="true" />
+            </div>
+            <div class="validator-btns"><div class="btn btn-submit">提交</div><div class="btn btn-reset">重置</div></div>
         </form>
     </div>
     <script src="jquery-2.0.3.js"></script>
     <script src="validator.js"></script>
     <script>
         (function() {
-            $('.validator-form').validator({
-                event: 'blur'
+            var validator = $('.validator-form').validator({
+                event: 'blur',
+                // errorHandle: function() {
+                //     for (var key in this.errors) {
+                //         alert(this.errors[key][0]);
+                //         break;
+                //     };
+                // },
             });
+            $('.btn-submit').on('click', function(e) {
+                validator.validate();
+            });
+            $('.btn-reset').on('click', function() {
+                validator.resetError();
+            })
         })();
     </script>
 </body>

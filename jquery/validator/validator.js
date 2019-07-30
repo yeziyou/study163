@@ -70,9 +70,13 @@
     function Validator(config) {
         this.$wrapper = config.$wrapper;
         this.caches = {};
+        this.actions = {};
         this.itemClass = config.itemClass || ITEM_CLASS;
         this.inputClass = config.inputClass || INPUT_CLASS;
         this.errorClass = config.errorClass || ERROR_CLASS;
+        this.config = config;
+        this.errorHandle = this.errorHandle();
+        this.resetError = this.resetError();
         if (config.event) {
             this.bindEvent(config.event);
         }
@@ -84,45 +88,74 @@
             me.$wrapper.on(event, `.${me.itemClass} .${me.inputClass}`, function(e) {
                 var $ip = $(e.target);
                 var key = $ip.attr('name');
-                if (!me.validate(key)) {
-                    me.showError($ip, key);
-                };
+                me.validate(key);
             });
             me.$wrapper.on('focus', `.${me.itemClass} .${me.inputClass}`, function(e) {
                 var $ip = $(e.target);
                 $ip.closest(`.${me.itemClass}`).find(`.${me.errorClass}`).hide();
             });
         },
-        showError: function($tg, key) {
+        errorHandle: function() {
+            return this.config.errorHandle && _t.isFunction(this.config.errorHandle) ? this.config.errorHandle : this.showErrors;
+        },
+        showErrors: function() {
             var me = this;
+            for(var key in me.errors) {
+                me.showError(key);
+            }
+        },
+        showError: function(key) {
+            var me = this;
+            var $tg = me.$wrapper.find(`[name=${key}]`);
             var $item = $tg.closest(`.${me.itemClass}`);
             var $error = $item.find(`.${me.errorClass}`);
             if ($error.length) {
                 $error.html(me.errors[key].join('，'));
                 $error.show();
             } else {
-                $item.append(`<div class="${me.errorClass}">${me.errors[key].join('，')}</div>`);
+                $item.append(`<span class="${me.errorClass}">${me.errors[key].join('，')}</span>`);
             }
+        },
+        resetError: function() {
+            return (this.config.resetError) && _t.isFunction(this.config.resetError) ? this.config.resetError : this.reset; 
+        },
+        reset: function() {
+            var me = this;
+            var $errors = me.$wrapper.find(`.${me.errorClass}`);
+            $errors.hide();
+        },
+        getValidate: function(rules) {
+            var me = this;
+            var _cache = rules ? {} : me.actions;
+            if (_t.isString(rules)) {
+                _cache[rules] = me.actions[rules];
+            } else if (_t.isArray(rules)) {
+                rules.forEach(function(key) {
+                    if (!me.actions[key]) return;
+                    _cache[key] = me.actions[key];
+                });
+            } else if (_t.isObject(rules)) {
+                for (var i in rules) {
+                    if (!me.actions[i]) continue;
+                    _cache[i] = _cache[i] || {};
+                    if (_t.isString(rules[i]) && me.actions[i][rules[i]]) {
+                        _cache[i][rules[i]] = me.actions[i][rules[i]];
+                        continue;
+                    }
+                    rules[i].forEach(function(j) {
+                        if (me.actions[i][j]) {
+                            _cache[i][j] = me.actions[i][j];
+                        };
+                    })
+                }
+            }
+            return _cache;
         },
         validate: function(rules) {
             var me = this;
-            var _cache = rules ? {} : me.caches;
             var valid = true;
+            var _cache = me.getValidate(rules);
             me.errors = {};
-            if (_t.isString(rules)) {
-                _cache[rules] = me.caches[rules].valid;
-            } else if (_t.isArray(rules)) {
-                rules.forEach(function(rule) {
-                    if (!me.caches[rule.key]) return;
-                    if (rule.rule) {
-                        if (!me.caches[rule.key].valid[rule.rule]) return;
-                        _cache[rule.key] = _cache[rule.key] || {};
-                        _cache[rule.key][rule.rule] = me.caches[rule.key].valid[rule.rule];
-                    } else {
-                        _cache[rule.key] = me.caches[rule.key].valid;
-                    }
-                });
-            }
             for (var key in _cache) {
                 for(var inkey in _cache[key]){
                     var validatorFunc = _cache[key][inkey];
@@ -134,43 +167,20 @@
                         me.errors[key].push(_tip);
                         break;
                     }
-                    
                 }
             }
+            me.errorHandle();
             return valid;
         },
         /**
          * 
-         * @param {Object Array} rules 
-         * [{
-         *  key {String}
-         *  label {String}
-         *  rule {Object}
-         * }]
-         */
-        // add: function(rules) {
-        //     var me = this;
-        //     var _cache, _tip, args, key;
-
-        //     rules.forEach(function(rule) {
-        //         _cache = me.cache[rule.key] = me.cache[rule.key] || {};
-        //         _tip = me.tips[rule.key] = me.tips[rule.key] || {};
-        //         args = rule.rule.split(':');
-        //         _tip[args[0]] = rule.tip || (defTips[args[0]] && defTips[args[0]](rule.label, args[1])) || defTip;
-        //         _cache[args[0]] = function() {
-        //             key = args.shift();
-        //             args.shift();
-        //             args.unshift(rule.getValue());
-        //             me.errors[rule.key]
-        //             return strategies[key].apply(null, args);
-        //         }
-        //     })
-        // },
-        /**
-         * 
-         * @param {Object} rules 
+         * @param {Object Object} rules 
          * {
-         *  
+         *  username: {
+         *      key: {String}
+         *      rule: {String || Array || Object}
+         *      label: {String}
+         *  }
          * }
          */
         add: function(rules) {
@@ -179,27 +189,29 @@
 
             for (var key in rules){
                 var rule = rules[key];
+                !(me.actions[key]) && (me.actions[key] = {});
+                var action = me.actions[key];
                 var rls = rule.rule;
 
                 rule.$input = rule.$input || me.$wrapper.find(`[name=${key}]`);
 
                 if (_t.isString(rls)) {
-                    me.setValid(rule, rls);
+                    me.setValid(rule, action, rls);
                 } else if (_t.isArray(rls)) {
                     rls.forEach(function(rl) {
-                        me.setValid(rule, rl, [value]);
+                        me.setValid(rule, action, rl, [value]);
                     })
                 } else if (_t.isObject(rls)) {
                     for(var k in rls) {
-                        me.setValid(rule, k);
+                        me.setValid(rule, action, k);
                     }
                 }
                 
             }
         },
-        setValid: function(rule, key) {
+        setValid: function(rule, action, key) {
             var _tips = rule.tips = rule.tips || {};
-            var _valid = rule.valid = rule.valid || {};
+            var _valid = action = action || {};
             _tips[key] = _tips[key] || defTips[key] && defTips[key](rule.label, rule.rule[key]) || defTip;
             _valid[key] = _valid[key] || function() {
                 var value = rule.$input[0].value;
