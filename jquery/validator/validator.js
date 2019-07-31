@@ -319,4 +319,4 @@
         return _validator;
     }
 
-})(jQuery)
+})(jQuery);
