@@ -79,11 +79,22 @@
         (function() {
             var validator = $('.validator-form').validator({
                 event: 'blur',
-                // errorHandle: function() {
+                // showError: function(key) {
+                //     if (key) {
+                //         alert(me.errors[key][0]);
+                //         return;
+                //     }
                 //     for (var key in this.errors) {
                 //         alert(this.errors[key][0]);
                 //         break;
                 //     };
+                // },
+                // hideError: function(key) {
+                //     if (key) {
+                //         alert(`隐藏错误${key}`);
+                //         return;
+                //     }
+                //     alert('隐藏错误代码');
                 // },
             });
             $('.btn-submit').on('click', function(e) {
@@ -97,7 +108,8 @@
                 // });
             });
             $('.btn-reset').on('click', function() {
-                validator.resetError();
+                validator.hideError();
+                // validator.hideError('username');
             })
         })();
     </script>

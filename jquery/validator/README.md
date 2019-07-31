@@ -52,8 +52,8 @@ config `{Object}`
 | itemClass | 表单元素的父级节点的ClassName | String | validator-item | 否 | |
 | inputClass | 表单元素的ClassName | String | validator-input | 否 | |
 | errorClass | 错误展示节点的ClassName | String | validator-error | 否 | |
-| errorHandle | 自定义错误处理函数 | Function | 默认使用errorClass展示错误 | 否 | |
-| resetError | 自定义错误重置函数 | Function | 默认使用errorClass重置错误 | 否 | |
+| showError | 自定义错误展示函数 | Function | 默认使用errorClass展示错误 | 否 | |
+| hideError | 自定义错误隐藏函数 | Function | 默认使用errorClass重置错误 | 否 | |
 | rules | 表单需要验证的信息配置 | Object | 无 | 否 |没有配置则自动获取dom节点上配置信息作为默认配置
 
 
