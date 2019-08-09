@@ -1,0 +1,22 @@
+节流       防抖   ？
+
+
+ _.throttle(func, wait, options)
+一次触发 func 默认执行两次  （立即调用  +  wait之后调用）
+func  处理函数
+wait  指定的毫秒 
+options  配置  {leading:false , trailing:false }
+
+leading  （func执行一次）
+阻止立即执行   等待wait毫秒之后调用
+
+trailing  （func执行一次）
+先立即执行  在触发在执行
+
+
+
+_.debounce (func, wait, immediate)
+
+func  处理函数
+wait  指定的毫秒 
+immediate   true   立即调用处理函数    false 等待wait间隔时间调用

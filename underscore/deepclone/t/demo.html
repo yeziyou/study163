@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="underscore.js"></script>
+		<script>
+			// // underscore  	  clone  浅克隆   deepclone   深克隆
+			// var arr = [1,2,3,4];
+			// var obj = {name:"max", list:[1,2,3,4,[5]], rest:{age:30}};
+			// // var ret = _.clone(obj);
+			// // //原有的对象属性不会发生改变.
+			// // console.log(ret.list === obj.list)    //false
+
+			// var ret = _.deepClone(obj);
+			// console.log(ret.rest === obj.rest);
+
+
+		var ret = _.pick({
+				name: 'max',
+				age: 30, //yes
+				userid: 'wzy'
+			}, function(value, key, object) { //迭代器函数   //iteratee(value, key, object)
+				return _.isNumber(value);
+			});
+
+
+		var ret1 = _.pick({
+				name: 'max',
+				age: 30, //yes
+				userid: 'wzy'
+			}, "name");     //{age:"30"}
+			
+	   console.log(ret)
+	   console.log(ret1)
+		</script>
+	</body>
+</html>
