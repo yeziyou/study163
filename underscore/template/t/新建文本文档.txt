@@ -1,0 +1,32 @@
+template    
+
+模板     数据     HTML
+
+解析     交互      直出
+
+render  渲染
+
+
+
+模板解析  分析字符串   token
+
+
+模板编译   token    
+
+模板标识符
+<%  %>  {{  }}   <()>
+
+<%= … %>插入变量
+<% … %>执行任意的 JavaScript 代码
+<%- … %>HTML转义
+
+
+obj.forEach(function(e, i, a){}
+
+e   每一项成员
+i   下标值
+a  obj
+
+
+<%= name %>插入变量  作用域？
+with(){}   作用域的绑定

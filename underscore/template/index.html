@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper"></div>
+    <script src="underscore.js"></script>
+    <!-- <script src="../underscore.js"></script> -->
+    <script type="text/template" id="tpl">
+        <div><%=title%></div>
+		<ul class="list">
+          <%list.forEach(function(e, i, a){%>
+           <% if(i === 0 ){%>
+            <li class="last-item"><%=e.name%></li>
+           <% }else{ %>
+            <li><%=e.name%></li>
+         <%}})%>
+        </ul>
+    </script>
+    <script>
+        (function(){
+            //数据
+            var data = {
+                title: '列表',
+                list: [{
+                    name: "max"
+                }, {
+                    name: "remi"
+                }, {
+                    name: "long"
+                }]
+            }
+			// var data = [{
+			// 	name: "max"
+			// }, {
+			// 	name: "remi"
+			// }, {
+			// 	name: "long"
+			// }];
+            
+            var templateString = document.getElementById("tpl").innerHTML;
+			var compiled = _.template(templateString);   //解析
+			var renderString = compiled(data);   //数据的交互   render 渲染
+			console.log(renderString);
+			document.querySelector("div").innerHTML = renderString;
+            // var data = {
+			// 	name:"remi"
+			// }
+            // var templateString = "hello: <%= name %>";
+			// var compiled = _.template(templateString);  //hello max
+			//   console.log(compiled(data));
+        })();
+    </script>
+</body>
+</html>
