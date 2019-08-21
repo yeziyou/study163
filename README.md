@@ -16,3 +16,9 @@
 10. [regexp-live](./jquery/regexp-live/README.md)
 11. [queue-live](./jquery/queue-live/README.md)
 12. [question2-live](./jquery/question2-live/README.md)
+
+### 第二章 underscore
+待补充
+
+### 第三章 模块加载器
+[模块加载器](./module/README.md)
