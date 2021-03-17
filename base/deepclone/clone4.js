@@ -2,7 +2,7 @@
  * @ Author: zhongly
  * @ Create time: 2021-03-16 10:19:40
  * @ Modified by: zhongly
- * @ Modified time: 2021-03-17 15:16:31
+ * @ Modified time: 2021-03-17 15:20:51
  * @ Description: 深拷贝 - 考虑各个数据类型
  */
 
@@ -22,7 +22,6 @@ function getConstructor(target, type) {
 function getType(target) {
     return Object.prototype.toString.call(target);
 }
-
 
 var deepTag = ['[object Object]', '[object Array]', '[object Map]', '[object Set]'];
 function clone(target) {
